@@ -4,7 +4,68 @@
 <head>
     <meta charset="UTF-8">
     <title>Inventory Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #444;
+            margin-top: 30px;
+        }
+
+        #product-list {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
@@ -15,10 +76,13 @@
 
     <!-- Add Product Form -->
     <h2>Add Product</h2>
-    <input type="text" id="product-name" placeholder="Product Name" required>
-    <input type="number" id="product-quantity" placeholder="Quantity" required>
-    <input type="number" id="product-price" placeholder="Price" required>
-    <button id="add-product-btn">Add Product</button>
+
+    <div class="form-container">
+        <input type="text" id="product-name" placeholder="Product Name" required>
+        <input type="number" id="product-quantity" placeholder="Quantity" required>
+        <input type="number" id="product-price" placeholder="Price" required>
+        <button id="add-product-btn">Add Product</button>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
