@@ -34,6 +34,7 @@ function fetchProducts() {
                     <h3>${product.name}</h3>
                     <p>Quantity: ${product.quantity}</p>
                     <p>Price: $${product.price.toFixed(2)}</p>
+                    
                     <button onclick="sellProduct('${doc.id}', ${product.quantity})">Sell</button>
                 </div>
                 <hr>
