@@ -35,11 +35,20 @@ function fetchProducts() {
                     <p>Quantity: ${product.quantity}</p>
                     <p>Price: $${product.price.toFixed(2)}</p>
                     
-                    <button onclick="sellProduct('${doc.id}', ${product.quantity})">Sell</button>
+                    <button  class="sell-btn" data-id="${doc.id}" data-quantity="${product.quantity}">Sell</button>
                 </div>
                 <hr>
             `;
         });
+        // Add event listener to sell buttons
+        const sellButtons = document.querySelectorAll(".sell-btn");
+        sellButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const productId = button.getAttribute("data-id");
+                const currentQty = parseInt(button.getAttribute("data-quantity"));
+                sellProduct(productId, currentQty);
+            });
+        })
     }, (error) => {
         console.error("Error fetching products:", error);
         productList.innerHTML = "<p>Failed to load products. Please try again.</p>";
