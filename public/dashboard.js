@@ -3,6 +3,7 @@
 // Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, onSnapshot, addDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"; 
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -18,7 +19,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
+const storage = getStorage(app);
 // Reference to the product list container
 const productList = document.getElementById("product-list");
 
@@ -29,12 +30,18 @@ function fetchProducts() {
         productList.innerHTML = ""; // Clear existing data
         snapshot.forEach((doc) => {
             const product = doc.data();
+            //adding effect for low stocks products
+            const isLowStock = product.quantity <= 5;
+            //warning message for low stock products
+            const lowStockWarning = isLowStock ? `<strong class="low-stock">Low Stock! Only ${product.quantity} left.</strong>` : "";
+
             productList.innerHTML += `
                 <div class="product-item">
                     <h3>${product.name}</h3>
+                    ${product.imageUrl ? `<img src="${product.imageUrl}" alt="${product.name}" width="100" />` : ""}
                     <p>Quantity: ${product.quantity}</p>
                     <p>Price: $${product.price.toFixed(2)}</p>
-                    
+                    ${lowStockWarning}
                     <button  class="sell-btn" data-id="${doc.id}" data-quantity="${product.quantity}">Sell</button>
                 </div>
                 <hr>
@@ -74,19 +81,31 @@ function sellProduct(id, currentQty) {
 }
 
 // Add New Product
-document.getElementById("add-product-btn").addEventListener("click", () => {
+document.getElementById("add-product-btn").addEventListener("click", async () => {
     const name = document.getElementById("product-name").value;
     const quantity = parseInt(document.getElementById("product-quantity").value);
     const price = parseFloat(document.getElementById("product-price").value);
+    const imageFile = document.getElementById("product-image").files[0];
 
     if (name && quantity >= 0 && price >= 0) {
-        addDoc(collection(db, "products"), { name, quantity, price })
+
+        // Upload image to Firebase Storage
+        let imageUrl = "";
+        if(imageFile) {
+            const storageRef = ref(storage, `product-images/${Date.now()}_${imageFile.name}`);
+            await uploadBytes(storageRef, imageFile)
+            imageUrl = await getDownloadURL(storageRef);
+        }
+
+        // Add product to Firestore
+        addDoc(collection(db, "products"), { name, quantity, price, imageUrl })
             .then(() => {
                 alert("Product Added!");
                 // Clear input fields
                 document.getElementById("product-name").value = "";
                 document.getElementById("product-quantity").value = "";
                 document.getElementById("product-price").value = "";
+                document.getElementById("product-image").value = "";
             })
             .catch((error) => {
                 console.error("Error adding product:", error);

@@ -65,6 +65,10 @@
         button:hover {
             background: #0056b3;
         }
+        .low-stock{
+            color: red;
+            font-weight: bold;
+        }
     </style>
    
 </head>
@@ -85,6 +89,7 @@
         <input type="text" id="product-name" placeholder="Product Name" required>
         <input type="number" id="product-quantity" placeholder="Quantity" required>
         <input type="number" id="product-price" placeholder="Price" required>
+        <input type="file" id="product-image" accept="image/*" required>
         <button id="add-product-btn">Add Product</button>
     </div>
 
