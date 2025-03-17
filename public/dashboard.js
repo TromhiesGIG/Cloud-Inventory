@@ -90,7 +90,7 @@ document.getElementById("add-product-btn").addEventListener("click", async () =>
 
     if (name && quantity >= 0 && price >= 0) {
 
-        // Upload image to Firebase Storage
+        // uploading image to Firebase Storage
         let imageUrl = "";
         if(imageFile) {
             const storageRef = ref(storage, `product-images/${Date.now()}_${imageFile.name}`);
