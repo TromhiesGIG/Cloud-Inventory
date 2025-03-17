@@ -81,7 +81,7 @@ function sellProduct(id, currentQty) {
     }
 }
 
-// Add New Product
+// Adding New Product
 document.getElementById("add-product-btn").addEventListener("click", async () => {
     const name = document.getElementById("product-name").value;
     const quantity = parseInt(document.getElementById("product-quantity").value);
